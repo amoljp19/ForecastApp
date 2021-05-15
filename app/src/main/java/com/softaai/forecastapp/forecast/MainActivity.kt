@@ -1,7 +1,8 @@
-package com.softaai.forecastapp
+package com.softaai.forecastapp.forecast
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.softaai.forecastapp.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
