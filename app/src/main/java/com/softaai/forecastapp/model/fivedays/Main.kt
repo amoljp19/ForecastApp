@@ -1,4 +1,4 @@
-package com.softaai.forecastapp.model.history
+package com.softaai.forecastapp.model.fivedays
 
 
 import com.squareup.moshi.Json

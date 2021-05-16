@@ -1,6 +1,6 @@
 package com.softaai.forecastapp.data.network
 
-import com.softaai.forecastapp.model.history.FiveDaysForecastApiResponse
+import com.softaai.forecastapp.model.fivedays.FiveDaysForecastApiResponse
 import com.softaai.forecastapp.model.todays.TodaysForecastApiResponse
 import retrofit2.Response
 import retrofit2.http.GET
