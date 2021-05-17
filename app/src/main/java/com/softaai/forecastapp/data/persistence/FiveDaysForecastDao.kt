@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.softaai.forecastapp.model.fivedays.FiveDaysForecastApiResponse
 import com.softaai.forecastapp.model.todays.TodaysForecastApiResponse
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -15,7 +16,7 @@ interface FiveDaysForecastDao {
     suspend fun addFiveDaysForecastResponse(fiveDaysForecastApiResponse: FiveDaysForecastApiResponse)
 
     @Query("SELECT * FROM ${FiveDaysForecastApiResponse.TABLE_NAME}")
-    fun getFiveDaysForecastResponse(): FiveDaysForecastApiResponse
+    fun getFiveDaysForecastResponse(): Flow<FiveDaysForecastApiResponse>
 
     @Query("DELETE FROM ${FiveDaysForecastApiResponse.TABLE_NAME}")
     suspend fun deleteFiveDaysForecastResponse()

@@ -40,7 +40,7 @@ class FiveDaysForecastDaoTest {
 
         val fivedaysForecastApiResponse = FiveDaysForecastApiResponse(
             1,
-            City(Coord(1,1), "Test1", 1, "Test1", 1, 1, 1, 1),
+            City( Coord(1,1), "Test1", 1, "Test1", 1, 1, 1, 1),
             1,
             "Test 1",
             listOf(
