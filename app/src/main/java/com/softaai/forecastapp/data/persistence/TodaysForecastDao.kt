@@ -12,6 +12,9 @@ interface TodaysForecastDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addTodaysForecastResponse(todaysForecastApiResponse: TodaysForecastApiResponse)
 
+    @Query("SELECT * FROM ${TodaysForecastApiResponse.TABLE_NAME}")
+    fun getTodaysForecastResponse(): TodaysForecastApiResponse
+
     @Query("DELETE FROM ${TodaysForecastApiResponse.TABLE_NAME}")
     suspend fun deleteTodaysForecastResponse()
 }

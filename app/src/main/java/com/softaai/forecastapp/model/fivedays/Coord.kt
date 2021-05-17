@@ -1,8 +1,13 @@
 package com.softaai.forecastapp.model.fivedays
 
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class Coord(
+data class Coord(
+    @Json(name = "lat")
+    val lat: Int,
+    @Json(name = "lon")
+    val lon: Int
 )
