@@ -11,34 +11,34 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class TodaysForecastApiResponse(
         @Json(name = "base")
-        val base: String,
+        val base: String?,
         @Json(name = "clouds")
-        val clouds: Clouds,
+        val clouds: Clouds?,
         @Json(name = "cod")
-        val cod: Int,
+        val cod: Int?,
         @Json(name = "coord")
-        val coord: Coord,
+        val coord: Coord?,
         @Json(name = "dt")
-        val dt: Int,
+        val dt: Int?,
         @PrimaryKey
         @Json(name = "id")
         val id: Int = 0,
         @Json(name = "main")
-        val main: Main,
+        val main: Main?,
         @Json(name = "name")
-        val name: String,
+        val name: String?,
         @Json(name = "rain")
-        val rain: Rain,
+        val rain: Rain?,
         @Json(name = "sys")
-        val sys: Sys,
+        val sys: Sys?,
         @Json(name = "timezone")
-        val timezone: Int,
+        val timezone: Int?,
         @Json(name = "visibility")
-        val visibility: Int,
+        val visibility: Int?,
         @Json(name = "weather")
-        val weather: List<Weather>,
+        val weather: List<Weather>?,
         @Json(name = "wind")
-        val wind: Wind
+        val wind: Wind?
 ) {
     companion object {
         const val TABLE_NAME = "todays_forecast"

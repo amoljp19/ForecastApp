@@ -13,15 +13,15 @@ data class FiveDaysForecastApiResponse(
         @PrimaryKey
         var id: Int? = 0,
         @Json(name = "city")
-        val city: City,
+        val city: City?,
         @Json(name = "cnt")
-        val cnt: Int,
+        val cnt: Int?,
         @Json(name = "cod")
-        val cod: String,
+        val cod: String?,
         @Json(name = "list")
-        val list: List<Info>,
+        val list: List<Info>?,
         @Json(name = "message")
-        val message: Int
+        val message: Int?
 ) {
     companion object {
         const val TABLE_NAME = "five_days_forecast"
