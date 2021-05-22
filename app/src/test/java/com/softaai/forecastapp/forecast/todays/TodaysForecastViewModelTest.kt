@@ -4,38 +4,40 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.softaai.forecastapp.data.network.Resource
 import com.softaai.forecastapp.data.network.State
 import com.softaai.forecastapp.data.repository.TodaysForecastRepository
-import com.softaai.forecastapp.model.todays.TodaysForecastApiResponse
+import com.softaai.forecastapp.forecast.CoroutineTestRule
+import com.softaai.forecastapp.model.todays.*
+import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.MatcherAssert.assertThat
+import org.hamcrest.core.IsEqual
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.ArgumentMatchers
 import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
+import org.mockito.kotlin.doReturn
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
+import org.mockito.stubbing.Answer
+import retrofit2.Response
 
 @RunWith(JUnit4::class)
 class TodaysForecastViewModelTest {
-
-    private val _todaysForecastLiveData = MutableLiveData<State<TodaysForecastApiResponse>>()
-
-    //val todaysForecastLiveData: LiveData<State<TodaysForecastApiResponse>> = _todaysForecastLiveData
-
-//    fun getTodaysForecast() {
-//        viewModelScope.launch {
-//            todaysForecastRepository.getTodaysForecast()
-//                .onStart { _todaysForecastLiveData.value = State.loading() }
-//                .map { resource -> State.fromResource(resource) }
-//                .collect { state -> _todaysForecastLiveData.value = state }
-//        }
-//    }
 
     @Mock
     private lateinit var todaysForecastViewModel: TodaysForecastViewModel
@@ -44,29 +46,133 @@ class TodaysForecastViewModelTest {
     private lateinit var todaysForecastRepository: TodaysForecastRepository
 
     @Mock
-    private lateinit var todaysForecastLiveData: LiveData<State<TodaysForecastApiResponse>>
-
-    @Mock
-    private lateinit var observer: Observer<in State<TodaysForecastApiResponse>>
+    private lateinit var observer: Observer<State<TodaysForecastApiResponse>>
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
 
+    @ExperimentalCoroutinesApi
+    @get:Rule
+    var coroutineTestRule = CoroutineTestRule()
+
+
     @Before
     fun setup() {
+
         MockitoAnnotations.initMocks(this)
         todaysForecastViewModel = spy(TodaysForecastViewModel(todaysForecastRepository))
-        todaysForecastLiveData = todaysForecastViewModel.todaysForecastLiveData
+
     }
 
 
+    @ExperimentalCoroutinesApi
     @Test
-    fun `Verify livedata values changes on event`(){
-        assertNotNull(todaysForecastViewModel.getTodaysForecast())
-        todaysForecastViewModel.todaysForecastLiveData.observeForever(observer)
-        verify(observer).onChanged(State.loading())
-        todaysForecastViewModel.getTodaysForecast()
+    fun todaysForecastLiveData_ShouldPostLoading() {
+
+        coroutineTestRule.testDispatcher.runBlockingTest {
+
+            //Given
+            val data = mock<Flow<Resource<TodaysForecastApiResponse>>>()
+
+            whenever(todaysForecastRepository.getTodaysForecast()).thenReturn(data)
+
+            whenever(todaysForecastRepository.getTodaysForecast()) doReturn flow {
+                State.Success(
+                    data
+                )
+            }
+
+
+            //When
+            todaysForecastViewModel.getTodaysForecast()
+
+            //Then
+            todaysForecastViewModel.todaysForecastLiveData.observeForever(observer)
+            verify(observer).onChanged(ArgumentMatchers.refEq(State.loading()))
+
+
+        }
+    }
+
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun todaysForecastLiveData_ShouldPostSuccess() {
+
+        coroutineTestRule.testDispatcher.runBlockingTest {
+
+            //Given
+            val todaysForecastApiResponse = TodaysForecastApiResponse(
+                "test1",
+                Clouds(1),
+                1,
+                Coord(1, 1),
+                1,
+                1,
+                Main(1.0, 1, 1, 1, 1, 1.0, 1.0, 1.0),
+                "test1",
+                Rain(1.0),
+                Sys(1, 1),
+                1,
+                1,
+                listOf(Weather("test1", "test1", 1, "test1")),
+                Wind(1, 1.0, 1.0)
+            )
+
+            whenever(todaysForecastRepository.getTodaysForecast()) doReturn flowOf(
+                Resource.Success(
+                    todaysForecastApiResponse
+                )
+            )
+
+            //When
+            todaysForecastViewModel.getTodaysForecast()
+
+
+            // Then
+            val observer = object : Observer<State<TodaysForecastApiResponse>> {
+                override fun onChanged(data1: State<TodaysForecastApiResponse>) {
+                    assertThat(data1, IsEqual(State.success(todaysForecastApiResponse)))
+                    todaysForecastViewModel.todaysForecastLiveData.removeObserver(this)
+                }
+            }
+            todaysForecastViewModel.todaysForecastLiveData.observeForever(observer)
+
+        }
+    }
+
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun todaysForecastLiveData_ShouldPostError() {
+
+        coroutineTestRule.testDispatcher.runBlockingTest {
+
+            //Given
+            val message = "error message"
+
+            whenever(todaysForecastRepository.getTodaysForecast()) doReturn flowOf(
+                Resource.Failed(
+                    message
+                )
+            )
+
+            //When
+            todaysForecastViewModel.getTodaysForecast()
+
+
+            // Then
+            val observer = object : Observer<State<TodaysForecastApiResponse>> {
+                override fun onChanged(data1: State<TodaysForecastApiResponse>) {
+                    assertThat(data1, IsEqual(State.error(message)))
+                    todaysForecastViewModel.todaysForecastLiveData.removeObserver(this)
+                }
+            }
+            todaysForecastViewModel.todaysForecastLiveData.observeForever(observer)
+
+        }
+
     }
 
 }
