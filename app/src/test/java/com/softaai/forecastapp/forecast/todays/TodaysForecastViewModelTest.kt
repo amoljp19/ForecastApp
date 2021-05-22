@@ -1,24 +1,19 @@
 package com.softaai.forecastapp.forecast.todays
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.softaai.forecastapp.data.network.Resource
 import com.softaai.forecastapp.data.network.State
 import com.softaai.forecastapp.data.repository.TodaysForecastRepository
 import com.softaai.forecastapp.forecast.CoroutineTestRule
 import com.softaai.forecastapp.model.todays.*
-import junit.framework.Assert.assertEquals
-import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.core.IsEqual
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,15 +21,12 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.mockito.ArgumentMatchers
 import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.verify
 import org.mockito.MockitoAnnotations
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import org.mockito.stubbing.Answer
-import retrofit2.Response
 
 @RunWith(JUnit4::class)
 class TodaysForecastViewModelTest {
@@ -102,7 +94,6 @@ class TodaysForecastViewModelTest {
 
         coroutineTestRule.testDispatcher.runBlockingTest {
 
-            //Given
             val todaysForecastApiResponse = TodaysForecastApiResponse(
                 "test1",
                 Clouds(1),
@@ -126,11 +117,9 @@ class TodaysForecastViewModelTest {
                 )
             )
 
-            //When
             todaysForecastViewModel.getTodaysForecast()
 
 
-            // Then
             val observer = object : Observer<State<TodaysForecastApiResponse>> {
                 override fun onChanged(data1: State<TodaysForecastApiResponse>) {
                     assertThat(data1, IsEqual(State.success(todaysForecastApiResponse)))
@@ -149,7 +138,6 @@ class TodaysForecastViewModelTest {
 
         coroutineTestRule.testDispatcher.runBlockingTest {
 
-            //Given
             val message = "error message"
 
             whenever(todaysForecastRepository.getTodaysForecast()) doReturn flowOf(
@@ -158,11 +146,9 @@ class TodaysForecastViewModelTest {
                 )
             )
 
-            //When
             todaysForecastViewModel.getTodaysForecast()
 
 
-            // Then
             val observer = object : Observer<State<TodaysForecastApiResponse>> {
                 override fun onChanged(data1: State<TodaysForecastApiResponse>) {
                     assertThat(data1, IsEqual(State.error(message)))
