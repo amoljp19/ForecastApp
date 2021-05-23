@@ -11,10 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.softaai.forecastapp.R
 import com.softaai.forecastapp.databinding.ErrorScreenBinding
-import com.softaai.forecastapp.forecast.loading.LoadingScreen
 import com.softaai.forecastapp.forecast.city.CityScreenActivity
+import com.softaai.forecastapp.forecast.loading.LoadingScreen
 
-class ErrorScreenFragment :  Fragment() {
+class ErrorScreenFragment : Fragment() {
 
     private var errorViewModel: ErrorViewModel? = null
 
@@ -22,10 +22,17 @@ class ErrorScreenFragment :  Fragment() {
     var loadingScreenAnimation: LoadingScreen? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
-        binding = DataBindingUtil.inflate<ErrorScreenBinding>(inflater, R.layout.error_screen, container, false)
+        binding = DataBindingUtil.inflate<ErrorScreenBinding>(
+            inflater,
+            R.layout.error_screen,
+            container,
+            false
+        )
 
         errorViewModel = ViewModelProviders.of(this).get(ErrorViewModel::class.java)
 

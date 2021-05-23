@@ -18,13 +18,17 @@ class DefaultTodaysForecastRepository @Inject constructor(
 ) : TodaysForecastRepository {
 
     override fun getTodaysForecast(): Flow<Resource<TodaysForecastApiResponse>> {
-        return object : NetworkBoundRepository<TodaysForecastApiResponse, TodaysForecastApiResponse>() {
+        return object :
+            NetworkBoundRepository<TodaysForecastApiResponse, TodaysForecastApiResponse>() {
 
-            override suspend fun saveRemoteData(response: TodaysForecastApiResponse) = todaysForecastDao.addTodaysForecastResponse(response)
+            override suspend fun saveRemoteData(response: TodaysForecastApiResponse) =
+                todaysForecastDao.addTodaysForecastResponse(response)
 
-            override fun fetchFromLocal(): Flow<TodaysForecastApiResponse> = todaysForecastDao.getTodaysForecastResponse()
+            override fun fetchFromLocal(): Flow<TodaysForecastApiResponse> =
+                todaysForecastDao.getTodaysForecastResponse()
 
-            override suspend fun fetchFromRemote(): Response<TodaysForecastApiResponse> = forecastApiService.getTodaysForecast()
+            override suspend fun fetchFromRemote(): Response<TodaysForecastApiResponse> =
+                forecastApiService.getTodaysForecast()
 
         }.asFlow()
     }

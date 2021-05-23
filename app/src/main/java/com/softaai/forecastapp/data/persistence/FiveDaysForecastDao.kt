@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.softaai.forecastapp.model.fivedays.FiveDaysForecastApiResponse
-import com.softaai.forecastapp.model.todays.TodaysForecastApiResponse
 import kotlinx.coroutines.flow.Flow
 
 

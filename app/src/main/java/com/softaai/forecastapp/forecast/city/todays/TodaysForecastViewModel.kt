@@ -8,9 +8,9 @@ import com.softaai.forecastapp.data.network.State
 import com.softaai.forecastapp.data.repository.TodaysForecastRepository
 import com.softaai.forecastapp.model.todays.TodaysForecastApiResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -31,7 +31,7 @@ class TodaysForecastDaoTest {
             "test1",
             Clouds(1),
             1,
-            Coord(1,1),
+            Coord(1, 1),
             1,
             1,
             Main(1.0, 1, 1, 1, 1, 1.0, 1.0, 1.0),
@@ -46,9 +46,13 @@ class TodaysForecastDaoTest {
 
         mDatabase.getTodaysForecastDao().addTodaysForecastResponse(todaysForecastApiResponse)
 
-        val dbTodaysForecastApiResponse = mDatabase.getTodaysForecastDao().getTodaysForecastResponse()
+        val dbTodaysForecastApiResponse =
+            mDatabase.getTodaysForecastDao().getTodaysForecastResponse()
 
-        ViewMatchers.assertThat(dbTodaysForecastApiResponse, CoreMatchers.equalTo(todaysForecastApiResponse))
+        ViewMatchers.assertThat(
+            dbTodaysForecastApiResponse,
+            CoreMatchers.equalTo(todaysForecastApiResponse)
+        )
     }
 
 

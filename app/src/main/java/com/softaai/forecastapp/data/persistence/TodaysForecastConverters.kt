@@ -54,13 +54,22 @@ class TodaysForecastConverters {
 
     @TypeConverter
     fun fromStringToWeatherList(value: String): List<Weather>? =
-        Moshi.Builder().build().adapter<List<Weather>>(Types.newParameterizedType(List::class.java, Weather::class.java)).fromJson(value)
+        Moshi.Builder().build().adapter<List<Weather>>(
+            Types.newParameterizedType(
+                List::class.java,
+                Weather::class.java
+            )
+        ).fromJson(value)
 
 
     @TypeConverter
     fun fromWeatherListToString(weatherListType: List<Weather>?): String =
-        Moshi.Builder().build().adapter<List<Weather>>(Types.newParameterizedType(List::class.java, Weather::class.java)).toJson(weatherListType)
-
+        Moshi.Builder().build().adapter<List<Weather>>(
+            Types.newParameterizedType(
+                List::class.java,
+                Weather::class.java
+            )
+        ).toJson(weatherListType)
 
 
     @TypeConverter

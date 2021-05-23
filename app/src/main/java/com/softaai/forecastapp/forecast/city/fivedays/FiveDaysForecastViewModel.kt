@@ -20,7 +20,8 @@ class FiveDaysForecastViewModel @Inject constructor(private val fiveDaysForecast
 
     private val _fiveDaysForecastLiveData = MutableLiveData<State<FiveDaysForecastApiResponse>>()
 
-    val fiveDaysForecastLiveData: LiveData<State<FiveDaysForecastApiResponse>> = _fiveDaysForecastLiveData
+    val fiveDaysForecastLiveData: LiveData<State<FiveDaysForecastApiResponse>> =
+        _fiveDaysForecastLiveData
 
     fun getFiveDaysForecast() {
         viewModelScope.launch {

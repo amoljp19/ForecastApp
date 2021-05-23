@@ -19,12 +19,15 @@ class FiveDaysForecastConverters {
 
     @TypeConverter
     fun fromStringToInfoList(value: String): List<Info>? =
-        Moshi.Builder().build().adapter<List<Info>>(Types.newParameterizedType(List::class.java, Info::class.java)).fromJson(value)
+        Moshi.Builder().build()
+            .adapter<List<Info>>(Types.newParameterizedType(List::class.java, Info::class.java))
+            .fromJson(value)
 
     @TypeConverter
     fun fromInfoListToString(infoListType: List<Info>?): String =
-        Moshi.Builder().build().adapter<List<Info>>(Types.newParameterizedType(List::class.java, Info::class.java)).toJson(infoListType)
-
+        Moshi.Builder().build()
+            .adapter<List<Info>>(Types.newParameterizedType(List::class.java, Info::class.java))
+            .toJson(infoListType)
 
 
     @TypeConverter
@@ -74,13 +77,22 @@ class FiveDaysForecastConverters {
 
     @TypeConverter
     fun fromStringToWeatherList(value: String): List<Weather>? =
-        Moshi.Builder().build().adapter<List<Weather>>(Types.newParameterizedType(List::class.java, Weather::class.java)).fromJson(value)
+        Moshi.Builder().build().adapter<List<Weather>>(
+            Types.newParameterizedType(
+                List::class.java,
+                Weather::class.java
+            )
+        ).fromJson(value)
 
 
     @TypeConverter
     fun fromWeatherListToString(weatherListType: List<Weather>?): String =
-        Moshi.Builder().build().adapter<List<Weather>>(Types.newParameterizedType(List::class.java, Weather::class.java)).toJson(weatherListType)
-
+        Moshi.Builder().build().adapter<List<Weather>>(
+            Types.newParameterizedType(
+                List::class.java,
+                Weather::class.java
+            )
+        ).toJson(weatherListType)
 
 
     @TypeConverter
@@ -90,7 +102,6 @@ class FiveDaysForecastConverters {
     @TypeConverter
     fun fromWindToString(wind: Wind?): String =
         Moshi.Builder().build().adapter(Wind::class.java).toJson(wind)
-
 
 
 }
