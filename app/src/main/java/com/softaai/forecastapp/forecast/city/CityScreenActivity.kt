@@ -1,26 +1,27 @@
-package com.softaai.forecastapp.forecast
+package com.softaai.forecastapp.forecast.city
 
 import android.annotation.TargetApi
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.transition.TransitionManager
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.databinding.DataBindingUtil
 import com.softaai.forecastapp.R
 import com.softaai.forecastapp.data.network.State
 import com.softaai.forecastapp.databinding.ActivityCityWheatherInfoBinding
-import com.softaai.forecastapp.forecast.fivedays.FiveDaysForecastViewModel
-import com.softaai.forecastapp.forecast.todays.TodaysForecastViewModel
+import com.softaai.forecastapp.forecast.loading.LoadingScreen
+import com.softaai.forecastapp.forecast.error.ErrorScreenFragment
+import com.softaai.forecastapp.forecast.city.fivedays.FiveDaysForecastViewModel
+import com.softaai.forecastapp.forecast.city.todays.TodaysForecastViewModel
 import com.softaai.forecastapp.model.fivedays.FiveDaysForecastApiResponse
 import com.softaai.forecastapp.model.todays.TodaysForecastApiResponse
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class CityScreenActivity : AppCompatActivity() {
 
     val todaysForecastViewModel: TodaysForecastViewModel by viewModels()
 
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val constraintSet1 = ConstraintSet()
     private val constraintSet2 = ConstraintSet()
 
-    private var isOffscreen = true
+    private var isOffscreen = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,47 +49,52 @@ class MainActivity : AppCompatActivity() {
         constraintSet2.clone(this, R.layout.activity_city_wheather_info_anim_end) //2
 
         getTodaysForecast()
+        getFiveDaysForecast()
     }
 
 
     private fun setupTodaysWeatherForecastInfo(todaysForecastApiResponse: TodaysForecastApiResponse?) {
-        activityCityWheatherInfoBinding.tvCurrentTemperature.text = todaysForecastApiResponse?.main?.temp.let { it1 -> getTempInCelcius(it1) }.toString() + "\u00B0"
+        activityCityWheatherInfoBinding.tvCurrentTemperature.text = todaysForecastApiResponse?.main?.temp?.let { it1 -> getTempInCelcius(it1) }.toString() + "\u00B0"
         activityCityWheatherInfoBinding.tvCurrentLocation.text = todaysForecastApiResponse?.name
     }
 
 
     private fun setupFiveDaysWeatherForecastInfo(fiveDaysForecastApiResponse: FiveDaysForecastApiResponse?) {
-        activityCityWheatherInfoBinding.tvDayOne.text = fiveDaysForecastApiResponse?.list?.get(1)?.dtTxt.let { it1 -> getDayName(it1) }
-        activityCityWheatherInfoBinding.tvDayOneAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(1)?.main?.temp.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
+        //activityCityWheatherInfoBinding.tvDayOne.text = fiveDaysForecastApiResponse?.list?.get(1)?.dtTxt?.let { it1 -> getDayName(it1) }
+        activityCityWheatherInfoBinding.tvDayOne.text = fiveDaysForecastApiResponse?.list?.get(1)?.weather?.get(0)?.main.toString()
+        activityCityWheatherInfoBinding.tvDayOneAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(1)?.main?.temp?.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
 
-        activityCityWheatherInfoBinding.tvDayTwo.text = fiveDaysForecastApiResponse?.list?.get(2)?.dtTxt.let { it1 -> getDayName(it1) }
-        activityCityWheatherInfoBinding.tvDayTwoAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(2)?.main?.temp.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
+        //activityCityWheatherInfoBinding.tvDayTwo.text = fiveDaysForecastApiResponse?.list?.get(2)?.dtTxt?.let { it1 -> getDayName(it1) }
+        activityCityWheatherInfoBinding.tvDayTwo.text = fiveDaysForecastApiResponse?.list?.get(2)?.weather?.get(0)?.main.toString()
+        activityCityWheatherInfoBinding.tvDayTwoAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(2)?.main?.temp?.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
 
-        activityCityWheatherInfoBinding.tvDayThree.text = fiveDaysForecastApiResponse?.list?.get(3)?.dtTxt.let { it1 -> getDayName(it1) }
-        activityCityWheatherInfoBinding.tvDayThreeAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(3)?.main?.temp.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
+        //activityCityWheatherInfoBinding.tvDayThree.text = fiveDaysForecastApiResponse?.list?.get(3)?.dtTxt?.let { it1 -> getDayName(it1) }
+        activityCityWheatherInfoBinding.tvDayThree.text = fiveDaysForecastApiResponse?.list?.get(2)?.weather?.get(0)?.main.toString()
+        activityCityWheatherInfoBinding.tvDayThreeAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(3)?.main?.temp?.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
 
-        activityCityWheatherInfoBinding.tvDayFour.text = fiveDaysForecastApiResponse?.list?.get(4)?.dtTxt.let { it1 -> getDayName(it1) }
-        activityCityWheatherInfoBinding.tvDayFourAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(4)?.main?.temp.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
+        //activityCityWheatherInfoBinding.tvDayFour.text = fiveDaysForecastApiResponse?.list?.get(4)?.dtTxt?.let { it1 -> getDayName(it1) }
+        activityCityWheatherInfoBinding.tvDayFour.text = fiveDaysForecastApiResponse?.list?.get(2)?.weather?.get(0)?.main.toString()
+        activityCityWheatherInfoBinding.tvDayFourAveTemperature.text = fiveDaysForecastApiResponse?.list?.get(4)?.main?.temp?.let { it1 -> getTempInCelcius(it1) }.toString() + " C"
 
     }
 
 
     private fun getDayName(dateString : String?) : String{
-        val date = SimpleDateFormat("yyyy-MM-dd").parse(dateString)
+
+        val date = dateString?.let{ SimpleDateFormat("yyyy-MM-dd").parse(dateString) }
         val simpleDateformat = SimpleDateFormat("EEEE")
         return simpleDateformat.format(date)
     }
 
-    private fun getTempInCelcius(it1: Double?) : Double? {
-        return it1?.minus(273.15)
+    private fun getTempInCelcius(it1: Double?) : Int? {
+        return it1?.minus(273.15)?.toInt()
     }
 
     override fun onStart() {
         super.onStart()
 
         observeTodaysForecast()
-        //getAndObserveTodaysForecast()
-        //getAndObserveFiveDaysForecast()
+        observeFiveDaysForecast()
     }
 
     private fun getAndObserveTodaysForecast(){
@@ -125,7 +131,8 @@ class MainActivity : AppCompatActivity() {
                     loadingScreenAnimation?.dismiss()
                 }
                 is State.Error -> {
-                    Toast.makeText(applicationContext, " " + state.message, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext, " " + state.message, Toast.LENGTH_SHORT).show()
+                    showErrorScreen()
                     loadingScreenAnimation?.dismiss()
                 }
             }
@@ -144,17 +151,18 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 is State.Error -> {
-                    Toast.makeText(applicationContext, " " + state.message, Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(applicationContext, " " + state.message, Toast.LENGTH_SHORT).show()
+                    showErrorScreen()
                     loadingScreenAnimation?.dismiss()
                 }
             }
         }
     }
 
-//    private fun showErrorScreen(){
-//        val errorScreenFragment = ErrorScreenFragment()
-//        supportFragmentManager.beginTransaction().replace(R.id.constraint_layout_weather_info, errorScreenFragment, "ErrorScreenTag").commit()
-//    }
+    private fun showErrorScreen(){
+        val errorScreenFragment = ErrorScreenFragment()
+        supportFragmentManager.beginTransaction().replace(R.id.constraint_layout_weather_info, errorScreenFragment, "ErrorScreenTag").commit()
+    }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     private fun performAnimation(){

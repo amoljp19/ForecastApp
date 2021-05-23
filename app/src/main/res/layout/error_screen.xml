@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+                name="errorViewModel"
+                type="com.softaai.forecastapp.forecast.error.ErrorViewModel"/>
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+                                                   android:layout_height="match_parent" android:id="@+id/constraint_layout_error"
+                                                   android:background="@color/colorErrorScreenBg">
+
+    <TextView
+            android:text="@string/error_msg"
+            android:layout_width="300dp"
+            android:layout_height="197dp"
+            android:id="@+id/tv_error"
+            android:fontFamily="@font/roboto_thin" android:textSize="@dimen/errorMsgText"
+            android:textColor="@color/colorErrorMsg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="100dp" app:layout_constraintBottom_toTopOf="@+id/guideline4"
+            android:layout_marginTop="24dp" app:layout_constraintTop_toTopOf="parent"/>
+    <Button
+            android:text="RETRY"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnRetry"
+            android:onClick="@{(v) -> errorViewModel.onClick(v)}"
+            app:layout_constraintStart_toStartOf="@+id/tv_error"
+            app:layout_constraintEnd_toEndOf="@+id/tv_error"
+            app:layout_constraintTop_toBottomOf="@+id/tv_error"
+            android:layout_marginTop="44dp"
+            android:background="@color/colorRetryBtnBg" android:textColor="@color/colorErrorMsg"
+            android:textSize="18sp" android:fontFamily="sans-serif-medium" android:layout_marginBottom="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline4"/>
+    <androidx.constraintlayout.widget.Group android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                            android:id="@+id/group"/>
+    <androidx.constraintlayout.widget.Group android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                            android:id="@+id/group2"/>
+    <androidx.constraintlayout.widget.Group android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                            android:id="@+id/group3"/>
+    <androidx.constraintlayout.widget.Guideline android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                                android:id="@+id/guideline4"
+                                                android:orientation="horizontal"
+                                                app:layout_constraintGuide_end="80dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

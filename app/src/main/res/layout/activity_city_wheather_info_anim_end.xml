@@ -5,11 +5,11 @@
     <data>
         <variable
             name="todaysForecastViewModel"
-            type="com.softaai.forecastapp.forecast.todays.TodaysForecastViewModel"/>
+            type="com.softaai.forecastapp.forecast.city.todays.TodaysForecastViewModel"/>
 
         <variable
             name="fiveDaysForecastViewModel"
-            type="com.softaai.forecastapp.forecast.fivedays.FiveDaysForecastViewModel"/>
+            type="com.softaai.forecastapp.forecast.city.fivedays.FiveDaysForecastViewModel"/>
 
     </data>
 
@@ -67,7 +67,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/guideline11"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="56dp" app:layout_constraintHorizontal_bias="0.5"
+            android:layout_marginTop="48dp" app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintVertical_bias="0.0" app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
             android:text="@string/textCurrentLocation"
@@ -79,7 +79,7 @@
             android:fontFamily="@font/roboto_thin"
             app:layout_constraintTop_toBottomOf="@+id/tv_currentTemperature"
             app:layout_constraintBottom_toTopOf="@+id/guideline8"
-            android:layout_marginBottom="62dp"
+            android:layout_marginBottom="48dp"
             app:layout_constraintVertical_bias="1.0"
             app:layout_constraintEnd_toEndOf="@+id/tv_currentTemperature"
             app:layout_constraintStart_toStartOf="@+id/tv_currentTemperature"/>

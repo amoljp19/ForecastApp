@@ -5,11 +5,11 @@
     <data>
         <variable
             name="todaysViewModel"
-            type="com.softaai.forecastapp.forecast.todays.TodaysForecastViewModel"/>
+            type="com.softaai.forecastapp.forecast.city.todays.TodaysForecastViewModel"/>
 
         <variable
             name="fiveDaysViewModel"
-            type="com.softaai.forecastapp.forecast.fivedays.FiveDaysForecastViewModel" />
+            type="com.softaai.forecastapp.forecast.city.fivedays.FiveDaysForecastViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.softaai.forecastapp.forecast.fivedays
+package com.softaai.forecastapp.forecast.city.fivedays
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer

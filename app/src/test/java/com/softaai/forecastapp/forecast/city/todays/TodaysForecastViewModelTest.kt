@@ -1,4 +1,4 @@
-package com.softaai.forecastapp.forecast.todays
+package com.softaai.forecastapp.forecast.city.todays
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer

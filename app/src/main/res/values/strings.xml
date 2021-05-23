@@ -3,4 +3,6 @@
 
     <string name="textCurrentLocation">Bangalore</string>
     <string name="textCurrentTemperature">20°</string>
+
+    <string name="error_msg">Something went wrong at our end!</string>
 </resources>

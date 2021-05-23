@@ -1,4 +1,4 @@
-package com.softaai.forecastapp.forecast
+package com.softaai.forecastapp.forecast.loading
 
 import android.app.Dialog
 import android.content.Context

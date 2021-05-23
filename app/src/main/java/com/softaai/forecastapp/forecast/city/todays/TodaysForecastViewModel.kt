@@ -1,4 +1,4 @@
-package com.softaai.forecastapp.forecast.todays
+package com.softaai.forecastapp.forecast.city.todays
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
