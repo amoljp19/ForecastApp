@@ -9,7 +9,6 @@ import com.softaai.forecastapp.forecast.CoroutineTestRule
 import com.softaai.forecastapp.model.todays.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
@@ -68,12 +67,6 @@ class TodaysForecastViewModelTest {
             val data = mock<Flow<Resource<TodaysForecastApiResponse>>>()
 
             whenever(todaysForecastRepository.getTodaysForecast()).thenReturn(data)
-
-            whenever(todaysForecastRepository.getTodaysForecast()) doReturn flow {
-                State.Success(
-                    data
-                )
-            }
 
 
             //When

@@ -7,4 +7,9 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="colorAppBg">#F5F6F7</color>
+
+    <color name="colorCurrentTemperature">#2A2A2A</color>
+    <color name="colorCurrentLocation">#556799</color>
 </resources>

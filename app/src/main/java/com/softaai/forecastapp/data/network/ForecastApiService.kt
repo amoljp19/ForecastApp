@@ -15,7 +15,7 @@ interface ForecastApiService {
 
 
     companion object {
-        const val BASE_URL = "http://api.openweathermap.org/data/2.5/"
+        const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
         const val API_KEY = "fae7190d7e6433ec3a45285ffcf55c86"
     }
 }
